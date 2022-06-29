@@ -3,7 +3,8 @@ module.exports = {
 	addons: [
 		'@storybook/addon-links',
 		'@storybook/addon-essentials',
-		'@storybook/addon-interactions'
+		'@storybook/addon-interactions',
+		'@storybook/addon-svelte-csf'
 	],
 	framework: '@storybook/svelte'
 	// commented per advice here: https://blog.logrocket.com/build-your-own-component-library-svelte/
