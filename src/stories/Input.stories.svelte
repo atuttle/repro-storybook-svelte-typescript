@@ -3,12 +3,12 @@
 	import Input from '../lib/Input.svelte';
 
 	/* This is how it would work, but it makes Storybook barf :( */
-	const exampleValidator = (currentValue: string) => {
+	/*const exampleValidator = (currentValue: string) => {
 		if (currentValue.trim() !== '42') {
 			return 'The only correct value is 42.';
 		}
 		return '';
-	};
+	};*/
 </script>
 
 <Meta title="Input" component={Input} />
@@ -30,7 +30,7 @@
 	}}
 />
 
-<Story
+<!--<Story
 	name="AutoValidating"
 	args={{
 		type: 'text',
@@ -41,4 +41,4 @@
 		validator: exampleValidator,
 		accentuateValid: true
 	}}
-/>
+/>-->
