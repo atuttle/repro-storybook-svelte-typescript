@@ -1,62 +1,51 @@
 <script lang="ts">
-	type ValidationStatus = 'initial' | 'invalid' | 'valid';
-
-	//this is how you accept class names as a prop named "class" in svelte
-	let propClasses = '';
-	export { propClasses as class };
-
-	export let name: string;
-	export let type = 'text';
-	export let id: string | null = null;
-	export let value = '';
-	export let placeholder: string | null | undefined = null;
-	const props = { name, type, id, placeholder };
-
-	export let validateOnChange = false;
-	export let validator: CallableFunction | null | undefined = null;
-
-	let validationStatus: ValidationStatus = 'initial';
-	let validationMessage = '';
-	let validationClasses = '';
-
-	let inputClasses: string;
-	$: inputClasses =
-		'border border-gray-500 rounded px-3 py-2 ' + validationClasses + ' ' + propClasses;
-	$: validationClasses =
-		validationStatus === 'initial'
-			? ''
-			: validationStatus === 'invalid'
-			? 'border-red-500 bg-red-200'
-			: 'border-green-500 bg-white-100';
-
-	const autoValidate = () => (validateOnChange ? validate() : null);
-	export const validate = async () => {
-		if (!validator) {
-			return;
+	export let value
+	export let validateOnChange = false
+	export let validator = async (value: string): Promise<{isValid: boolean | undefined, message: string}> => {
+		console.log(value) //set a default behaviour
+		return {
+			isValid: undefined,
+			message: ''
 		}
-		validationMessage = await validator(value);
-		if (validationMessage.trim() === '') {
-			validationStatus = 'valid';
-		} else {
-			validationStatus = 'invalid';
-		}
-	};
+	}
 
-	//if a value is provided at load/mount, validate it
-	if (value !== '') {
-		validate();
+	const {'class': classes, ...props} = $$restProps
+
+	let isValid: boolean | undefined = undefined
+	let validationMessage = ''
+
+	async function validate() {
+		const returnInfo = await validator(value)
+		isValid = returnInfo.isValid
+		validationMessage = returnInfo.message
 	}
 </script>
 
-<input
-	class={inputClasses}
-	{...props}
-	bind:value
-	on:keyup={autoValidate}
-	on:change={autoValidate}
-/>
-{#if validationStatus === 'valid'}
-	<span class="valid" />
-{:else if validationStatus === 'invalid'}
-	<span class="validationMessage">{validationMessage}</span>
-{/if}
+<div>
+	<input
+		class="border border-gray-500 rounded px-3 py-2 {classes}"
+		class:valid={isValid}
+		class:invalid={isValid === false}
+		{...props}
+		bind:value
+		on:input={validateOnChange && validate}
+	/>
+	{#if isValid}
+		<span class="valid">
+			Input is Valid
+		</span>
+	{:else if isValid === false}
+		<span class="validationMessage">
+			{validationMessage}
+		</span>
+	{/if}
+</div>
+
+<style>
+	.valid {
+		@apply border-green-500 bg-white-100;
+	}
+	.invalid {
+		@apply border-red-500 bg-red-200;
+	}
+</style>
