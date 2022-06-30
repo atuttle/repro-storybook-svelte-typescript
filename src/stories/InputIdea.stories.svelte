@@ -2,27 +2,28 @@
 	import { Meta, Template, Story } from '@storybook/addon-svelte-csf'
 	import InputIdea from "../lib/InputIdea.svelte"
 
-	let isInputValid = false
-
-	function handleInputChange(event) {
-		console.log(event.detail) //event.detail has the data send by dispatch example: https://svelte.dev/tutorial/component-events
-		isInputValid = !isInputValid // just for the invalid valid effect insert function here.
+	const type = 'text'
+	const placeholder = 'Some Text Here'
+	const validationFunction = (value) => {
+		console.log('Using external ValidationFunction')
+		return value.match(/[A-Z]/g)
 	}
 </script>
 
 <Meta title="InputIdea" component={InputIdea} />
 
 <Template let:args>
-	<InputIdea {...args} invalid="{isInputValid}" on:inputChange={handleInputChange} />
+	<InputIdea {...args} />
 </Template>
 
 <Story
 	name="Vanilla"
 	args={{
-		type: 'text',
+		type,
 		name: 'cheese',
 		id: 'cheese',
-		placeholder: 'placeholder text',
+		placeholder,
+		validationFunction,
 		block: false,
 		class: 'some-classes-given-by-parent'
 	}}

@@ -1,41 +1,28 @@
-<script lang="ts">
-    import {createEventDispatcher} from "svelte";
+<script>
+  export let validationFunction = (value) => {
+    console.log(value)
+    return false
+  }
 
-    // could create an export let value with a bind:value in the element if you know the value has to be changed after init by an external source eg parent component
-    export let invalid = false
-    export let errorMessage = 'Input doesn\'t follow guidelines'
+  let isValid = false
 
-    const {'class': classes, ...props} = $$restProps // just separate the class props and all other props
-    const dispatch = createEventDispatcher()
+  const {'class': classes, ...props} = $$restProps
 
-
-    function handleInputChange(e) {
-      dispatch('inputChange', {
-        value: e.target.value
-      })
-    }
+  function handleInput(e) {
+    isValid = validationFunction(e.target.value)
+  }
 </script>
 
-<div class="some-other-classes-here {classes}">
+<div class="{classes}">
     <input
-        class:invalid={invalid}
-        class:valid={!invalid}
-        {...props}
-        on:input={handleInputChange}
-    > <!-- This "...props" will allow to have type,placeholder etc etc all just transferred without having to export it-->
-    {#if invalid}
-        <span>
-            {errorMessage}
-        </span>
-    {/if}
+            class:invalid={!isValid}
+            {...props}
+            on:input={handleInput}
+    />
 </div>
-
 
 <style>
     .invalid {
-        border: 3px red solid;
-    }
-    .valid {
-        border: 3px green solid;
+        border: solid 3px red
     }
 </style>
