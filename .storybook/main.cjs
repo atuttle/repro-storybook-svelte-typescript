@@ -1,3 +1,4 @@
+const preprocess = require("svelte-preprocess");
 module.exports = {
 	stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx|svelte)'],
 	addons: [
@@ -11,7 +12,7 @@ module.exports = {
 		const svelteLoader = config.module.rules.find(
 			(r) => r.loader && r.loader.includes('svelte-loader')
 		);
-		svelteLoader.options.preprocess = require('svelte-preprocess')();
+		svelteLoader.options.preprocess = preprocess();
 		return config;
 	}
 	// commented per advice here: https://blog.logrocket.com/build-your-own-component-library-svelte/

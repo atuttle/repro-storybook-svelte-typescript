@@ -2,12 +2,17 @@
 	import { Meta, Template, Story } from '@storybook/addon-svelte-csf';
 	import Input from '../lib/Input.svelte';
 
-	/* This is how it would work, but it makes Storybook barf :( */
-	const exampleValidator = (currentValue: string) => {
-		if (currentValue.trim() !== '42') {
-			return 'The only correct value is 42.';
+	const exampleValidator = async (value) => {
+		if (value.trim() !== '42') {
+			return {
+				isValid: false,
+				message: 'The only correct value is 42.'
+			}
 		}
-		return '';
+		return {
+			isValid: true,
+			message: ''
+		};
 	};
 </script>
 
@@ -37,8 +42,7 @@
 		value: '',
 		placeholder: 'placeholder text',
 		validateOnChange: true,
-		/* This is how it would work, but it makes Storybook barf :( */
-		validator: exampleValidator,
-		accentuateValid: true
+		accentuateValid: true,
+		validator: exampleValidator
 	}}
 />
