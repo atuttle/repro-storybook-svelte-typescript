@@ -3,7 +3,7 @@
 	import Input from '../lib/Input.svelte';
 
 	/* This is how it would work, but it makes Storybook barf :( */
-	const exampleValidator = (currentValue: string) => {
+	const exampleValidator = (currentValue) => {
 		if (currentValue.trim() !== '42') {
 			return 'The only correct value is 42.';
 		}
