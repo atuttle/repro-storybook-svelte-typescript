@@ -6,16 +6,16 @@
 	export { propClasses as class };
 
 	export let name: string;
-	export let type: string = 'text';
+	export let type = 'text';
 	export let id: string | null = null;
-	export let value: string = '';
+	export let value = '';
 	export let placeholder: string | null | undefined = null;
 	const props = { name, type, id, placeholder };
 
-	export let validateOnChange: boolean = false;
+	export let validateOnChange = false;
 	export let validator: CallableFunction | null | undefined = null;
 	let validationStatus: ValidationStatus = 'initial';
-	let validationMessage: string = '';
+	let validationMessage = '';
 	let validationClasses = '';
 
 	let inputClasses: string;

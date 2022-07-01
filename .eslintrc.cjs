@@ -1,7 +1,7 @@
-export default {
+module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
-  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'prettier'],
+  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'prettier', 'plugin:storybook/recommended'],
   plugins: ['svelte3', '@typescript-eslint'],
   ignorePatterns: ['*.cjs'],
   overrides: [{
@@ -21,4 +21,3 @@ export default {
     node: true
   }
 };
-export const extends = ['plugin:storybook/recommended'];
